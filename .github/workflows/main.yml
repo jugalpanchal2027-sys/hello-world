@@ -1,0 +1,31 @@
+name: Build .NET Project
+
+# Trigger: When do we run this?
+on:
+  push:
+    branches: [ "main" ]       # Run when code is pushed to main
+  pull_request:
+    branches: [ "main" ]       # Run when a PR is opened against main
+
+# Jobs: The actual work
+jobs:
+  build:
+    runs-on: ubuntu-latest     # Use a Linux server (cheaper & faster)
+
+    steps:
+    # Step 1: Download your code to the server
+    - uses: actions/checkout@v4
+
+    # Step 2: Install .NET (Adjust version to 6.0, 7.0, or 8.0 as needed)
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+
+    # Step 3: Try to build the code
+    - name: Build
+      run: dotnet build
+
+    # Step 4: (Optional) Run Tests
+    - name: Test
+      run: dotnet test
